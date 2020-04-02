@@ -5,12 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -57,6 +57,11 @@ public class Controller implements Initializable {
         double width = ImageView.getFitWidth();
         ImageView.setFitHeight(height + 100);
         ImageView.setFitWidth(width + 100);
+
+
+        //TODO
+        Rectangle2D rectangle2D = new Rectangle2D(800,800,800,800);
+        ImageView.setViewport(rectangle2D);
     }
 
     @Override
