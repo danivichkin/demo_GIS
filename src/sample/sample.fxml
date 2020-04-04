@@ -16,11 +16,12 @@
       </ImageView>
       <Button fx:id="plusButton" layoutX="173.0" layoutY="13.0" mnemonicParsing="false" onAction="#plusButton" prefHeight="26.0" prefWidth="25.0" text="+" />
       <Button fx:id="minusButton" layoutX="208.0" layoutY="13.0" mnemonicParsing="false" onAction="#minusButton" prefHeight="26.0" prefWidth="25.0" text="-" />
-      <ChoiceBox fx:id="choiceBoxMap" layoutX="14.0" layoutY="14.0" prefWidth="150.0" />
-      <Label layoutX="261.0" layoutY="17.0" text="x:" fx:id="xCord" />
+      <ChoiceBox fx:id="choiceBoxMap" layoutX="14.0" layoutY="12.0" prefHeight="26.0" prefWidth="106.0" />
+      <Label layoutX="260.0" layoutY="17.0" text="x:" fx:id="xCord" />
       <Label fx:id="yCord" layoutX="308.0" layoutY="17.0" text="y:" />
       <Label layoutX="270.0" layoutY="17.0" fx:id="xCord" />
       <Label fx:id="yCord" layoutX="317.0" layoutY="18.0" />
       <Label fx:id="tapLabel" layoutX="356.0" layoutY="18.0" text="Tap to pin center" />
+      <Button fx:id="changeTheMapButton" layoutX="133.0" layoutY="13.0" mnemonicParsing="false" onAction="#changeTheMapButton" prefHeight="26.0" prefWidth="32.0" text="Ok" />
    </children>
 </AnchorPane>

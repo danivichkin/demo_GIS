@@ -5,12 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -44,31 +43,46 @@ public class Controller implements Initializable {
     private Label tapLabel;
 
     @FXML
+    private Button changeTheMapButton;
+
+    @FXML
+    void changeTheMapButton(ActionEvent event) {
+        if (choiceBoxMap.getValue().equals(getTheNameOfCurrentImage())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Выбрана текущая карта");
+            alert.showAndWait();
+        } else {
+            File file = new File("src/resources/maps/" + choiceBoxMap.getValue());
+            Image image = new Image(file.toURI().toString());
+            ImageView.setImage(image);
+        }
+    }
+
+    @FXML
     void minusButton(ActionEvent event) {
         double height = ImageView.getFitHeight();
         double width = ImageView.getFitWidth();
-        ImageView.setFitHeight(height - 100);
-        ImageView.setFitWidth(width - 100);
+
+        if (height >= 850 && width >= 820) {
+            ImageView.setFitHeight(height - 100);
+            ImageView.setFitWidth(width - 100);
+        }
     }
 
     @FXML
     void plusButton(ActionEvent event) throws IOException {
         double height = ImageView.getFitHeight();
         double width = ImageView.getFitWidth();
+
         ImageView.setFitHeight(height + 100);
         ImageView.setFitWidth(width + 100);
 
-
-        //TODO
-        Rectangle2D rectangle2D = new Rectangle2D(800,800,800,800);
-        ImageView.setViewport(rectangle2D);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<String> langs = FXCollections.observableArrayList("1");
+        ObservableList<String> langs = getAllMaps();
         choiceBoxMap.setItems(langs);
-        choiceBoxMap.setValue("1");
+        choiceBoxMap.setValue(getAllMaps().get(0));
 
         ImageView.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
 
@@ -86,11 +100,20 @@ public class Controller implements Initializable {
         });
     }
 
-    private void getAllMaps() {
+    private ObservableList<String> getAllMaps() {
+        ObservableList<String> strings = FXCollections.observableArrayList();
         File dir = new File("src/resources/maps/");
-        File[] maps = dir.listFiles();
-        System.out.println(Arrays.toString(maps));
+        String[] maps = dir.list();
+
+        if (maps != null) {
+            strings.addAll(Arrays.asList(maps));
+        }
+        return strings;
     }
 
+    private String getTheNameOfCurrentImage() {
+        String[] fullUrl = ImageView.getImage().getUrl().split("/");
+        return (fullUrl[fullUrl.length - 1]);
+    }
 
 }
