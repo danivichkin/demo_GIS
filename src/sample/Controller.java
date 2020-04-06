@@ -5,21 +5,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-
-    double xPIN = 0;
-    double yPIN = 0;
 
     @FXML
     private ChoiceBox<String> choiceBoxMap;
@@ -69,7 +70,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void plusButton(ActionEvent event) throws IOException {
+    void plusButton(ActionEvent event) {
         double height = ImageView.getFitHeight();
         double width = ImageView.getFitWidth();
 
@@ -88,16 +89,24 @@ public class Controller implements Initializable {
 
             double xPin = event.getSceneX();
             double yPin = event.getSceneY();
-            String label = "Tab has pinned: x: " + xPin + " y:" + yPin;
-            tapLabel.setText(label);
 
-            event.consume();
+            if (event.getButton() == MouseButton.PRIMARY) {
+                String label = "Tab has pinned: x: " + xPin + " y:" + yPin;
+                tapLabel.setText(label);
+                event.consume();
+            }
+
+            if (event.getButton() == MouseButton.SECONDARY) {
+                Double[] doubles = new Double[]{xPin, yPin};
+                System.out.println("Eee");
+            }
         });
 
         ImageView.addEventHandler(MouseEvent.MOUSE_MOVED, mouseEvent -> {
             xCord.setText(String.valueOf(mouseEvent.getSceneX()));
             yCord.setText(String.valueOf(mouseEvent.getSceneY()));
         });
+
     }
 
     private ObservableList<String> getAllMaps() {
@@ -115,5 +124,18 @@ public class Controller implements Initializable {
         String[] fullUrl = ImageView.getImage().getUrl().split("/");
         return (fullUrl[fullUrl.length - 1]);
     }
+
+
+    private HashMap<Shape, String> mapsObjects() {
+        HashMap<Shape, String> hashMap = new HashMap<>();
+        Shape.Point point = new Shape.Point(76.0, 428.0);
+        Shape.Point point1 = new Shape.Point(66.0, 176.0);
+        Shape.Point point2 = new Shape.Point(244.0, 192.0);
+        Shape.Point point3 = new Shape.Point(296.0, 424.0);
+        Shape shape = new Shape(point, point1, point2, point3);
+        hashMap.put(shape, "Kazan");
+        return hashMap;
+    }
+
 
 }
