@@ -17,11 +17,22 @@ public class Shape {
         this.x4 = x4;
     }
 
+    //Частный случай
     public static boolean isDotInSide(Shape shape, double x, double y) {
-        return shape.x1.x <= x && shape.x1.y <= y
-                && shape.x2.x <= x && shape.x2.y >= y
-                && shape.x3.x >= x && shape.x3.y >= y
-                && shape.x4.x >= x && shape.x4.y <= y;
+        return shape.x1.x <= x && shape.x1.y >= y
+                && shape.x2.x <= x && shape.x2.y <= y
+                && shape.x3.x >= x && shape.x3.y <= y
+                && shape.x4.x >= x && shape.x4.y >= y;
+    }
+
+    @Override
+    public String toString() {
+        return "Shape{" +
+                "x1=" + x1 +
+                ", x2=" + x2 +
+                ", x3=" + x3 +
+                ", x4=" + x4 +
+                '}';
     }
 
     static class Point {
@@ -31,6 +42,14 @@ public class Shape {
         public Point(double x, double y) {
             this.x = x;
             this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "Point{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}';
         }
     }
 
