@@ -53,4 +53,37 @@ public class Shape {
         }
     }
 
+    static class ObjectOfShape{
+        Shape shape;
+        String name;
+
+        public ObjectOfShape(Shape shape, String name) {
+            this.shape = shape;
+            this.name = name;
+        }
+
+        public Shape getShape() {
+            return shape;
+        }
+
+        public void setShape(Shape shape) {
+            this.shape = shape;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "ObjectOfShape{" +
+                    "shape=" + shape +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
+    }
 }
