@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <ImageView fx:id="ImageView" fitHeight="824.0" fitWidth="813.0" layoutX="4.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="ImageView" fitHeight="786.0" fitWidth="804.0" layoutX="17.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../resources/maps/1.png" />
          </image>
@@ -23,5 +23,41 @@
       <Label fx:id="yCord" layoutX="317.0" layoutY="18.0" />
       <Label fx:id="tapLabel" layoutX="356.0" layoutY="18.0" text="Tap to pin center" />
       <Button fx:id="changeTheMapButton" layoutX="133.0" layoutY="13.0" mnemonicParsing="false" onAction="#changeTheMapButton" prefHeight="26.0" prefWidth="32.0" text="Ok" />
+      <Button layoutX="42.0" layoutY="382.0" mnemonicParsing="false" onAction="#left" prefHeight="42.0" prefWidth="50.0">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/icons/unnamed%20-%20Copy.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="376.0" layoutY="772.0" mnemonicParsing="false" onAction="#down" prefHeight="26.0" prefWidth="32.0">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/icons/unnamed.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="376.0" layoutY="46.0" mnemonicParsing="false" onAction="#up" prefHeight="38.0" prefWidth="32.0">
+         <graphic>
+            <ImageView fitHeight="53.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/icons/unnamed%20-%20Copy%20(2).png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="718.0" layoutY="382.0" mnemonicParsing="false" onAction="#right" prefHeight="38.0" prefWidth="32.0">
+         <graphic>
+            <ImageView fitHeight="53.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/icons/unnamed%20-%20Copy%20(3).png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

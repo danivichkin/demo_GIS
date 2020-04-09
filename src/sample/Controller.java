@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -27,6 +28,7 @@ public class Controller implements Initializable {
 
     double xPIN = 0;
     double yPIN = 0;
+    int scale = 1; // костыль
 
     @FXML
     private ChoiceBox<String> choiceBoxMap;
@@ -61,39 +63,71 @@ public class Controller implements Initializable {
             File file = new File("src/resources/maps/" + choiceBoxMap.getValue());
             Image image = new Image(file.toURI().toString());
             ImageView.setImage(image);
+            scale = 1;
         }
     }
 
     @FXML
-    void minusButton(ActionEvent event) {
+    void up(ActionEvent event) {
+        double height = ImageView.getImage().getHeight();
+        double width = ImageView.getImage().getWidth();
+        Double[] centerPoint = getCenterOfTheImageView(ImageView);
+        ImageView.setViewport(new Rectangle2D(centerPoint[0], centerPoint[1] - 100, height, width));
+    }
 
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), ImageView);
-        scaleTransition.setByX(-0.1f);
-        scaleTransition.setByY(-0.1f);
-        scaleTransition.setCycleCount(1);
-        scaleTransition.setAutoReverse(true);
-        scaleTransition.play();
+    @FXML
+    void right(ActionEvent event) {
+        double height = ImageView.getImage().getHeight();
+        double width = ImageView.getImage().getWidth();
+        Double[] centerPoint = getCenterOfTheImageView(ImageView);
+        ImageView.setViewport(new Rectangle2D(centerPoint[0] + 100, centerPoint[1], height, width));
+    }
+
+    @FXML
+    void down(ActionEvent event) {
+        double height = ImageView.getImage().getHeight();
+        double width = ImageView.getImage().getWidth();
+        Double[] centerPoint = getCenterOfTheImageView(ImageView);
+        ImageView.setViewport(new Rectangle2D(centerPoint[0], centerPoint[1] + 100, height, width));
+    }
+
+    @FXML
+    void left(ActionEvent event) {
+        double height = ImageView.getImage().getHeight();
+        double width = ImageView.getImage().getWidth();
+        Double[] centerPoint = getCenterOfTheImageView(ImageView);
+        ImageView.setViewport(new Rectangle2D(centerPoint[0] - 100, centerPoint[1], height, width));
+    }
+
+    @FXML
+    void minusButton(ActionEvent event) {
+        if (scale > 0) {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), ImageView);
+            scaleTransition.setByX(-0.1f);
+            scaleTransition.setByY(-0.1f);
+            scaleTransition.setCycleCount(1);
+            scaleTransition.setAutoReverse(true);
+            scaleTransition.play();
+            scale -= 1;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Максимальное отдальне");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void plusButton(ActionEvent event) {
-
-        double height = ImageView.getImage().getHeight();
-        double width = ImageView.getImage().getWidth();
-
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), ImageView);
         scaleTransition.setByX(0.1f);
         scaleTransition.setByY(0.1f);
         scaleTransition.setCycleCount(1);
         scaleTransition.setAutoReverse(true);
         scaleTransition.play();
-        ImageView.setViewport(new Rectangle2D(xPIN, yPIN, height, width));
-        System.out.println(new Rectangle2D(xPIN, yPIN, height, width));
+        scale++;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         ObservableList<String> langs = getAllMaps();
         choiceBoxMap.setItems(langs);
         choiceBoxMap.setValue(getAllMaps().get(0));
@@ -126,6 +160,12 @@ public class Controller implements Initializable {
             yCord.setText(String.valueOf(mouseEvent.getSceneY()));
         });
 
+    }
+
+    private Double[] getCenterOfTheImageView(ImageView imageView) {
+        double x = imageView.getViewport().getMinX();
+        double y = imageView.getViewport().getMinY();
+        return new Double[]{x, y};
     }
 
     private ObservableList<String> getAllMaps() {
