@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
@@ -25,7 +27,6 @@ public class Controller implements Initializable {
 
     double xPIN = 0;
     double yPIN = 0;
-
 
     @FXML
     private ChoiceBox<String> choiceBoxMap;
@@ -65,13 +66,13 @@ public class Controller implements Initializable {
 
     @FXML
     void minusButton(ActionEvent event) {
-        double height = ImageView.getFitHeight();
-        double width = ImageView.getFitWidth();
 
-        if (height >= 850 && width >= 820) {
-            ImageView.setFitHeight(height - 100);
-            ImageView.setFitWidth(width - 100);
-        }
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), ImageView);
+        scaleTransition.setByX(-0.1f);
+        scaleTransition.setByY(-0.1f);
+        scaleTransition.setCycleCount(1);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.play();
     }
 
     @FXML
@@ -79,17 +80,20 @@ public class Controller implements Initializable {
 
         double height = ImageView.getImage().getHeight();
         double width = ImageView.getImage().getWidth();
-        double scale = 1.02;
 
-        double newWidth = width - (width * scale - width);
-        double newHeight = height - (height * scale - height);
-
-        ImageView.setViewport(new Rectangle2D(xPIN, yPIN, newWidth, newHeight));
-
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), ImageView);
+        scaleTransition.setByX(0.1f);
+        scaleTransition.setByY(0.1f);
+        scaleTransition.setCycleCount(1);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.play();
+        ImageView.setViewport(new Rectangle2D(xPIN, yPIN, height, width));
+        System.out.println(new Rectangle2D(xPIN, yPIN, height, width));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         ObservableList<String> langs = getAllMaps();
         choiceBoxMap.setItems(langs);
         choiceBoxMap.setValue(getAllMaps().get(0));
@@ -121,14 +125,6 @@ public class Controller implements Initializable {
             xCord.setText(String.valueOf(mouseEvent.getSceneX()));
             yCord.setText(String.valueOf(mouseEvent.getSceneY()));
         });
-
-    }
-
-    private void setImageViewToImage() {
-        double width = ImageView.getFitWidth();
-        double height = ImageView.getFitHeight();
-        double scale = 1.0002;
-        ImageView.setViewport(new Rectangle2D(xPIN, yPIN, width * scale, height * scale));
 
     }
 
