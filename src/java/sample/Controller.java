@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -63,7 +62,7 @@ public class Controller implements Initializable {
             File file = new File("src/resources/maps/" + choiceBoxMap.getValue());
             Image image = new Image(file.toURI().toString());
             ImageView.setImage(image);
-            scale = 1;
+            ImageView.setViewport(Rectangle2D.EMPTY);
         }
     }
 
@@ -72,7 +71,7 @@ public class Controller implements Initializable {
         double height = ImageView.getImage().getHeight();
         double width = ImageView.getImage().getWidth();
         Double[] centerPoint = getCenterOfTheImageView(ImageView);
-        ImageView.setViewport(new Rectangle2D(centerPoint[0], centerPoint[1] - 100, height, width));
+        ImageView.setViewport(new Rectangle2D(centerPoint[0], centerPoint[1] - 100, width, height));
     }
 
     @FXML
@@ -80,7 +79,7 @@ public class Controller implements Initializable {
         double height = ImageView.getImage().getHeight();
         double width = ImageView.getImage().getWidth();
         Double[] centerPoint = getCenterOfTheImageView(ImageView);
-        ImageView.setViewport(new Rectangle2D(centerPoint[0] + 100, centerPoint[1], height, width));
+        ImageView.setViewport(new Rectangle2D(centerPoint[0] + 100, centerPoint[1], width, height));
     }
 
     @FXML
@@ -88,7 +87,7 @@ public class Controller implements Initializable {
         double height = ImageView.getImage().getHeight();
         double width = ImageView.getImage().getWidth();
         Double[] centerPoint = getCenterOfTheImageView(ImageView);
-        ImageView.setViewport(new Rectangle2D(centerPoint[0], centerPoint[1] + 100, height, width));
+        ImageView.setViewport(new Rectangle2D(centerPoint[0], centerPoint[1] + 100, width, height));
     }
 
     @FXML
@@ -96,7 +95,7 @@ public class Controller implements Initializable {
         double height = ImageView.getImage().getHeight();
         double width = ImageView.getImage().getWidth();
         Double[] centerPoint = getCenterOfTheImageView(ImageView);
-        ImageView.setViewport(new Rectangle2D(centerPoint[0] - 100, centerPoint[1], height, width));
+        ImageView.setViewport(new Rectangle2D(centerPoint[0] - 100, centerPoint[1], width, height));
     }
 
     @FXML
@@ -128,6 +127,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ImageView.setViewport(Rectangle2D.EMPTY);
         ObservableList<String> langs = getAllMaps();
         choiceBoxMap.setItems(langs);
         choiceBoxMap.setValue(getAllMaps().get(0));
@@ -146,9 +146,9 @@ public class Controller implements Initializable {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Double[] cords = new Double[]{xPIN, yPIN};
                 ArrayList<Shape.ObjectOfShape> shapes = kostili();
-                for (int i = 0; i < shapes.size(); i++) {
-                    if (Shape.isDotInSide(shapes.get(i).getShape(), cords[0], cords[1])) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, shapes.get(i).getName());
+                for (Shape.ObjectOfShape shape : shapes) {
+                    if (Shape.isDotInSide(shape.getShape(), cords[0], cords[1])) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, shape.getName());
                         alert.showAndWait();
                     }
                 }
@@ -184,6 +184,7 @@ public class Controller implements Initializable {
         return (fullUrl[fullUrl.length - 1]);
     }
 
+    //Doesnt work correctly
     private ArrayList<Shape.ObjectOfShape> kostili() {
         ArrayList<Shape.ObjectOfShape> arrayList = new ArrayList<>();
 
